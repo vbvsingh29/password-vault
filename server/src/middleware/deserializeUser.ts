@@ -30,6 +30,7 @@ const deserializeUser = async (
         res.locals.user = decoded;
         return next();
       }
+      
     //   if (expired && refreshToken) {
     //     const newAccessToken = await reIssueAccessToken({ refreshToken });
   
@@ -51,6 +52,7 @@ const deserializeUser = async (
     //     }
     //     return next();
     //   }
+
       return next();
     } catch (err: any) {
       return res.status(500).send({
