@@ -1,3 +1,5 @@
-const vault = () => {};
+const Vault = () => {
+  return <div>Vault</div>;
+};
 
-export default vault;
+export default Vault;
