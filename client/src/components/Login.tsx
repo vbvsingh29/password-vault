@@ -8,15 +8,20 @@ import {
 } from "@chakra-ui/react";
 import FormWrapper from "./FormWrapper";
 import { useForm } from "react-hook-form";
-import { generateVaultKey, hashPassword } from "../crypto";
+import { decryptVault, generateVaultKey, hashPassword } from "../crypto";
 import { useMutation } from "react-query";
-import { registerUser } from "../api";
+import { loginUser } from "../api";
 import { Dispatch, SetStateAction } from "react";
+import { VaultItem } from "../pages/Home";
+import { setToken } from "../store/tokenSlice";
+import { useDispatch } from "react-redux";
 
-const Register = ({
+const Login = ({
+  setVault,
   setVaultKey,
   setStep,
 }: {
+  setVault: Dispatch<SetStateAction<VaultItem[]>>;
   setVaultKey: Dispatch<SetStateAction<string>>;
   setStep: Dispatch<SetStateAction<"login" | "register" | "vault">>;
 }) => {
@@ -27,16 +32,20 @@ const Register = ({
     setValue,
     formState: { errors, isSubmitting },
   } = useForm<{ email: string; password: string; hashedPassword: string }>();
+  const dispatch = useDispatch();
 
-  const mutation = useMutation(registerUser, {
-    onSuccess: ({ salt, vault }) => {
+  const mutation = useMutation(loginUser, {
+    onSuccess: ({ accessToken, salt, vault }) => {
       const hashedPassword = getValues("hashedPassword");
       const email = getValues("email");
       const vaultKey = generateVaultKey({ email, hashedPassword, salt });
+      const decryptedVault = decryptVault({ vault, vaultKey });
 
+      dispatch(setToken(accessToken));
       window.sessionStorage.setItem("vk", vaultKey);
       setVaultKey(vaultKey);
-      window.sessionStorage.setItem("vault", "");
+      setVault(decryptedVault);
+      window.sessionStorage.setItem("vault", JSON.stringify(decryptedVault));
       setStep("vault");
     },
   });
@@ -51,7 +60,7 @@ const Register = ({
         mutation.mutate({ email, hashedPassword });
       })}
     >
-      <Heading>Register</Heading>
+      <Heading>Login</Heading>
       <FormControl mt="4">
         <FormLabel htmlFor="email">Email</FormLabel>
         <Input
@@ -82,9 +91,9 @@ const Register = ({
           {errors.password && errors.password.message}
         </FormErrorMessage>
       </FormControl>
-      <Button type="submit">Register</Button>
+      <Button type="submit">Login</Button>
     </FormWrapper>
   );
 };
 
-export default Register;
+export default Login;
