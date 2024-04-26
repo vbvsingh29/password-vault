@@ -4,7 +4,7 @@
   "license": "MIT",
   "source": "src/index.html",
   "scripts": {
-    "start": "parcel",
+    "start": "rimraf .parcel-cache && parcel",
     "build": "parcel build"
   },
   "dependencies": {
@@ -21,7 +21,8 @@
     "react-query": "^3.39.3",
     "react-redux": "^9.1.1",
     "react-router-dom": "^6.23.0",
-    "redux-persist": "^6.0.0"
+    "redux-persist": "^6.0.0",
+    "rimraf": "^5.0.5"
   },
   "devDependencies": {
     "@types/crypto-js": "^4.2.2",

@@ -2,6 +2,7 @@ import axios from "axios";
 
 const userBase = `${process.env.REACT_APP_API_ENDPOINT}/api/users`;
 const vaultBase = `${process.env.REACT_APP_API_ENDPOINT}/api/vault`;
+const healthcheckBase = `${process.env.REACT_APP_API_ENDPOINT}/healthcheck`;
 
 export async function registerUser(payload: {
   hashedPassword: string;
@@ -36,7 +37,6 @@ export async function saveVault({
   encryptedVault: string;
   token: string;
 }) {
-
   return axios
     .put(
       vaultBase,
@@ -44,4 +44,8 @@ export async function saveVault({
       { headers: { Authorization: `Bearer ${token}` } }
     )
     .then((res) => res.data);
+}
+
+export async function healthcheck() {
+  return axios.get(healthcheckBase).then((res) => res.data);
 }
