@@ -39,7 +39,7 @@ export function decryptVault({
   const bytpes = AES.decrypt(vault, vaultKey);
   const decrypted = bytpes.toString(enc.Utf8);
   try {
-    return JSON.parse(decrypted).vault;
+    return JSON.parse(decrypted);
   } catch (e: any) {
     return null;
   }

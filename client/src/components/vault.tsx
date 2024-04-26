@@ -5,6 +5,8 @@ import { Box, Button, FormControl, FormLabel, Input } from "@chakra-ui/react";
 import { encryptVault } from "../crypto";
 import { useMutation } from "react-query";
 import { saveVault } from "../api";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
 
 const Vault = ({
   vault = [],
@@ -13,6 +15,7 @@ const Vault = ({
   vault: VaultItem[];
   vaultKey: string;
 }) => {
+  const token = useSelector((state: RootState) => state.token.token);
   const { control, register, handleSubmit } = useForm({
     defaultValues: {
       vault,
@@ -34,7 +37,7 @@ const Vault = ({
           vaultKey,
         });
         window.sessionStorage.setItem("vault", JSON.stringify(vault));
-        mutation.mutate({ encryptedVault });
+        mutation.mutate({ encryptedVault, token });
       })}
     >
       {fields.map((field, index) => {
