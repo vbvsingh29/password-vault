@@ -3,14 +3,14 @@ import Register from "../components/Register";
 import Login from "../components/Login";
 import Vault from "../components/vault";
 
-export interface VaultKey {
+export interface VaultItem {
   website: string;
   username: string;
   password: string;
 }
 const Home = () => {
-  const [step, setStep] = useState<"login" | "register" | "vault">("register");
-  const [vault, setVault] = useState<VaultKey[]>([]);
+  const [step, setStep] = useState<"login" | "register" | "vault">("vault");
+  const [vault, setVault] = useState<VaultItem[]>([]);
   const [vaultKey, setVaultKey] = useState("");
 
   return (
@@ -20,7 +20,7 @@ const Home = () => {
           <Register setStep={setStep} setVaultKey={setVaultKey} />
         )}
         {step === "login" && <Login />}
-        {step === "vault" && <Vault />}
+        {step === "vault" && <Vault vault={vault} vaultKey={vaultKey} />}
       </main>
     </div>
   );
