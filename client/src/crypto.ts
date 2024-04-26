@@ -14,7 +14,7 @@ export function generateVaultKey({
   hashedPassword: string;
   salt: string;
 }) {
-  return pbkdf2(`${email}:${hashPassword}`, salt, {
+  return pbkdf2(`${email}:${hashedPassword}`, salt, {
     keySize: 32,
   }).toString();
 }
