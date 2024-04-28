@@ -39,17 +39,25 @@ To get started with the Paassword Vault Manager app, follow these steps:
 cd paassword-vault
 
 # Install backend dependencies
+
+```bash
 cd server
-yarn install
-# From the server directory
+yarn 
+```
+# From the server directory, to start server
+```bash
 yarn dev
+```
 
 # Install frontend dependencies
+```bash
 cd ../client
-yarn install
+yarn 
+```
 # From Client directory 
+```bash
 yarn start
-
+```
 ## Environment Variables
 
 ### Backend
